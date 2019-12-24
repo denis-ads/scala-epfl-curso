@@ -1,0 +1,55 @@
+group 'denis-ads'
+version '1.0.0-SNAPSHOT'
+
+apply plugin: 'scala'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+idea {
+    project {
+        jdkName = '1.8'
+        languageLevel = '1.8'
+    }
+}
+
+dependencies {
+//    implementation platform('software.amazon.awssdk:bom:2.5.29')
+//    implementation 'software.amazon.awssdk:s3:'
+//    compile group: 'org.apache.spark', name: 'spark-core_2.12', version: '2.4.4'
+//    compile group: 'org.apache.spark', name: 'spark-sql_2.12', version: '2.4.4'
+    compile group: 'org.scala-lang', name: 'scala-library', version: '2.12.10'
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.module/jackson-module-scala
+//    compile group: 'com.fasterxml.jackson.module', name: 'jackson-module-scala_2.12', version: '2.10.1'
+//    compile group: 'org.apache.spark', name: 'spark-hive_2.12', version: '2.4.4'
+//    testCompile group: 'org.scalatest', name: 'scalatest_2.12', version: '3.1.0'
+
+}
+
+configurations.all {
+    resolutionStrategy {
+        force 'com.google.guava:guava:12.0.1'
+    }
+}
+
+compileScala.targetCompatibility = "1.8"
+compileScala.sourceCompatibility = "1.8"
+
+jar {
+    zip64 true
+    archiveName = "scala-course-epfl.jar"
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+//    manifest {
+//        attributes 'Main-Class': 'com.scala.course'
+//    }
+
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA'
+
+}
